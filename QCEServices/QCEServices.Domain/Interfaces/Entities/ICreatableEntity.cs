@@ -1,6 +1,6 @@
 namespace QCEServices.Domain.Interfaces.Entities;
 
-public interface ICreatableEntity
+public interface ICreatableEntity : IAuditableEntity
 {
     DateTime CreatedAt { get; set; }
     string CreatedBy { get; set; }

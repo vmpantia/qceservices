@@ -2,7 +2,7 @@ using QCEServices.Shared.Enums;
 
 namespace QCEServices.Domain.Entities;
 
-public class MarriageLicense : AuditedSoftDeleteEntity
+public sealed class MarriageLicense : SoftDeleteEntity
 {
     public Guid Id { get; set; }
     public Guid ApplicationFormId { get; set; }
@@ -10,7 +10,7 @@ public class MarriageLicense : AuditedSoftDeleteEntity
     public Party Groom { get; set; } = new();
     public Party Bride { get; set; } = new();
 
-    public virtual ApplicationForm ApplicationForm { get; set; }
+    public ApplicationForm ApplicationForm { get; set; }
 }
 
 public class Party
