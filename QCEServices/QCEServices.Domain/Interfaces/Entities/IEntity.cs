@@ -1,3 +1,3 @@
 namespace QCEServices.Domain.Interfaces.Entities;
 
-public interface IAuditableEntity : IEntity;
+public interface IEntity;
