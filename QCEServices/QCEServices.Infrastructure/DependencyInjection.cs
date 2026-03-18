@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Infrastructure.DataAccess.Contexts;
 using QCEServices.Infrastructure.DataAccess.Interceptors;
+using QCEServices.Infrastructure.DataAccess.Repositories;
 
 namespace QCEServices.Infrastructure;
 
@@ -14,6 +16,7 @@ public static class DependencyInjection
         {
             services.AddInterceptors();
             services.AddDbContexts(configuration);
+            services.AddRepositories();
         }
 
         private void AddInterceptors()
@@ -30,6 +33,12 @@ public static class DependencyInjection
                 opt.UseSqlServer(configuration.GetConnectionString("MigrationDb"))
                     .AddInterceptors(interceptor);
             });
+        }
+
+        private void AddRepositories()
+        {
+            services.AddScoped<IApplicationFormRepository, ApplicationFormRepository>();
+            services.AddScoped<IMarriageLicenseRepository, MarriageLicenseRepository>();
         }
     }
 }
