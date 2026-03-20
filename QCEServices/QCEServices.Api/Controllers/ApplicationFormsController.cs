@@ -1,9 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QCEServices.Application.ApplicationForms.Commands;
 
 namespace QCEServices.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public sealed class ApplicationFormsController(IMediator mediator) : ControllerBase

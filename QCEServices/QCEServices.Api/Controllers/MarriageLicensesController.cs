@@ -1,11 +1,13 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QCEServices.Application.MarriageLicenses.Commands;
 using QCEServices.Application.MarriageLicenses.Queries;
-using QCEServices.Shared.MarriageLicenses.Dtos;
+using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
 namespace QCEServices.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public sealed class MarriageLicensesController(IMediator mediator) : ControllerBase

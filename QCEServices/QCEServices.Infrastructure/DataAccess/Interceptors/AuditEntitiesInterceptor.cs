@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using QCEServices.Domain.Interfaces.Entities;
+using QCEServices.Shared.Extensions;
 
 namespace QCEServices.Infrastructure.DataAccess.Interceptors;
 
@@ -26,7 +27,7 @@ public sealed class AuditEntitiesInterceptor(IHttpContextAccessor httpContextAcc
     private void AuditEntities(DbContext context)
     {
         // Get requestor info if not exist use default
-        var requestor = httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
+        var requestor = httpContextAccessor.HttpContext?.User.GetEmail();
 
         // Get all the entries for base entity
         var entries = context.ChangeTracker.Entries<IEntity>();

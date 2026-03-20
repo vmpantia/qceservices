@@ -1,7 +1,6 @@
-using QCEServices.Shared.ApplicationForms.Dtos;
-using QCEServices.Shared.Models;
+using QCEServices.Shared.Models.Dtos.ApplicationForms;
 
-namespace QCEServices.Shared.MarriageLicenses.Dtos;
+namespace QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
 public sealed class MarriageLicenseDto
 {

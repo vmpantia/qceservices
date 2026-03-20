@@ -1,6 +1,6 @@
 using QCEServices.Shared.Enums;
 
-namespace QCEServices.Shared.ApplicationForms.Dtos;
+namespace QCEServices.Shared.Models.Dtos.ApplicationForms;
 
 public sealed class ApplicationFormDto
 {

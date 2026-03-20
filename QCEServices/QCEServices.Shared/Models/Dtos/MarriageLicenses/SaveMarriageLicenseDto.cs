@@ -1,6 +1,4 @@
-using QCEServices.Shared.Models;
-
-namespace QCEServices.Shared.MarriageLicenses.Dtos;
+namespace QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
 public sealed class SaveMarriageLicenseDto
 {

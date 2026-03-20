@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QCEServices.Infrastructure.DataAccess.Contexts;
 
@@ -11,9 +12,11 @@ using QCEServices.Infrastructure.DataAccess.Contexts;
 namespace QCEServices.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(QCEServicesDbContext))]
-    partial class QCEServicesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260320152638_AddUsersTable")]
+    partial class AddUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

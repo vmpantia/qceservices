@@ -1,5 +1,5 @@
 using MediatR;
-using QCEServices.Application.Contracts;
+using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Shared.Enums;
 using QCEServices.Shared.Responses;

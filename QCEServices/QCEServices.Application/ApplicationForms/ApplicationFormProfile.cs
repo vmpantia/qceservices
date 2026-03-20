@@ -1,6 +1,6 @@
 using AutoMapper;
 using QCEServices.Domain.Entities;
-using QCEServices.Shared.ApplicationForms.Dtos;
+using QCEServices.Shared.Models.Dtos.ApplicationForms;
 
 namespace QCEServices.Application.ApplicationForms;
 

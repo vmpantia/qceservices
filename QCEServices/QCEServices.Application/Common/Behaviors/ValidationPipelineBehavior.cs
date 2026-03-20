@@ -2,9 +2,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QCEServices.Application.Contracts;
+using QCEServices.Domain.Interfaces;
 
-namespace QCEServices.Application.Behaviors;
+namespace QCEServices.Application.Common.Behaviors;
 
 internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(IServiceProvider serviceProvider, ILogger<ValidationPipelineBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

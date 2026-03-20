@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using QCEServices.Application.Authentication;
+using QCEServices.Application.Common.Authentication;
 
 namespace QCEServices.Api;
 

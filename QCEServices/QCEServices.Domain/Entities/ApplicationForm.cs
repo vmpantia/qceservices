@@ -8,6 +8,7 @@ public class ApplicationForm : IAuditableEntity, IDeletableEntity
     public Guid Id { get; set; }
     public ApplicationFormType Type { get; set; }
     public ApplicationFormStatus Status { get; set; }
+    public Guid ApplicantId { get; set; }
     
     public DateTime? SubmittedAt { get; set; }
     public string? SubmittedBy { get; set; }
@@ -19,4 +20,5 @@ public class ApplicationForm : IAuditableEntity, IDeletableEntity
     public string? DeletedBy { get; set; }
     
     public virtual MarriageLicense MarriageLicense { get; set; }
+    public virtual User Applicant { get; set; }
 }

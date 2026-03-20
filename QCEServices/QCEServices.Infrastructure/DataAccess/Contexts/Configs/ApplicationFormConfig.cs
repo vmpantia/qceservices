@@ -8,7 +8,12 @@ public class ApplicationFormConfig : IEntityTypeConfiguration<ApplicationForm>
 {
     public void Configure(EntityTypeBuilder<ApplicationForm> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.HasIndex(x => new { x.Type, x.Status }).IsUnique();
+        builder.HasKey(af => af.Id);
+        
+        builder.HasIndex(af => new { af.Type, af.Status }).IsUnique();
+
+        builder.HasOne(af => af.Applicant)
+            .WithMany(u => u.ApplicationForms)
+            .HasForeignKey(af => af.ApplicantId);
     }
 }

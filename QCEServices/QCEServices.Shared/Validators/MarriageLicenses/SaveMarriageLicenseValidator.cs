@@ -1,8 +1,7 @@
 using FluentValidation;
-using QCEServices.Shared.MarriageLicenses.Dtos;
-using QCEServices.Shared.Validators;
+using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
-namespace QCEServices.Shared.MarriageLicenses.Validators;
+namespace QCEServices.Shared.Validators.MarriageLicenses;
 
 public sealed class SaveMarriageLicenseValidator : AbstractValidator<SaveMarriageLicenseDto>
 {

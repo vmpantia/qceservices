@@ -1,14 +1,17 @@
+using System.Security.Claims;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using QCEServices.Application.ApplicationForms;
 using QCEServices.Domain.Entities;
+using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Shared.Enums;
-using QCEServices.Shared.MarriageLicenses.Dtos;
-using QCEServices.Shared.MarriageLicenses.Validators;
+using QCEServices.Shared.Extensions;
+using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 using QCEServices.Shared.Responses;
-using ICommand = QCEServices.Application.Contracts.ICommand;
+using QCEServices.Shared.Validators.MarriageLicenses;
 
 namespace QCEServices.Application.MarriageLicenses.Commands;
 
@@ -34,7 +37,8 @@ public sealed class CreateMarriageLicenseCommandValidator : AbstractValidator<Cr
     }
 }
 
-public sealed class CreateMarriageLicenseCommandHandler(IMarriageLicenseRepository marriageLicenseRepository, IMapper mapper) : IRequestHandler<CreateMarriageLicenseCommand, Result<Guid>>
+public sealed class CreateMarriageLicenseCommandHandler(IMarriageLicenseRepository marriageLicenseRepository, IMapper mapper, 
+    IHttpContextAccessor httpContextAccessor) : IRequestHandler<CreateMarriageLicenseCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateMarriageLicenseCommand request, CancellationToken cancellationToken)
     {
@@ -42,7 +46,8 @@ public sealed class CreateMarriageLicenseCommandHandler(IMarriageLicenseReposito
             .WithMarriageLicense(mapper.Map<MarriageLicense>(request.MarriageLicense))
             .WithApplicationForm(ApplicationFormBuilder.Empty()
                 .WithType(ApplicationFormType.MarriageLicense)
-                .WithStatus(ApplicationFormStatus.Saved))
+                .WithStatus(ApplicationFormStatus.Saved)
+                .WithApplicantId(httpContextAccessor.HttpContext!.User.GetUpn()))
             .Build();
         
         var result = await marriageLicenseRepository.CreateAsync(entity, cancellationToken);

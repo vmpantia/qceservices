@@ -1,9 +1,9 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using QCEServices.Application.Contracts;
+using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Repositories;
-using QCEServices.Shared.MarriageLicenses.Dtos;
+using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 using QCEServices.Shared.Responses;
 
 namespace QCEServices.Application.MarriageLicenses.Queries;

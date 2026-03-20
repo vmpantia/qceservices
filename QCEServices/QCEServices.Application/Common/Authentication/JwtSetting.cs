@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace QCEServices.Application.Authentication;
+namespace QCEServices.Application.Common.Authentication;
 
 public class JwtSetting(string secret, string issuer, string audience, int expirationInMinutes)
 {

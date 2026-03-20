@@ -1,6 +1,6 @@
 using AutoMapper;
 using QCEServices.Domain.Entities;
-using QCEServices.Shared.MarriageLicenses.Dtos;
+using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
 namespace QCEServices.Application.MarriageLicenses;
 

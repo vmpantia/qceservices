@@ -7,6 +7,7 @@ public sealed class ApplicationFormBuilder
 {
     private ApplicationFormType _type;
     private ApplicationFormStatus _status;
+    private Guid _applicantId;
     
     private ApplicationFormBuilder() { }
 
@@ -24,10 +25,17 @@ public sealed class ApplicationFormBuilder
         return this;
     }
 
+    public ApplicationFormBuilder WithApplicantId(Guid applicantId)
+    {
+        _applicantId = applicantId;
+        return this;
+    }
+
     public ApplicationForm Build() => new ApplicationForm
     {
         Id = Guid.NewGuid(),
         Type = _type,
-        Status = _status
+        Status = _status,
+        ApplicantId = _applicantId
     };
 }
