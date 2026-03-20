@@ -18,8 +18,4 @@
       <ProjectReference Include="..\QCEServices.Shared\QCEServices.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="MarriageLicenses\Commands\" />
-    </ItemGroup>
-
 </Project>

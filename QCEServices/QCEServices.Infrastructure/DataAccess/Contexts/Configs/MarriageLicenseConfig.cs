@@ -8,51 +8,55 @@ public class MarriageLicenseConfig : IEntityTypeConfiguration<MarriageLicense>
 {
     public void Configure(EntityTypeBuilder<MarriageLicense> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.HasIndex(x => x.ApplicationFormId).IsUnique();
+        builder.HasKey(ml => ml.Id);
 
-        builder.OwnsOne(x => x.Groom, groom =>
+        builder.OwnsOne(ml => ml.Groom, groom =>
         {
-            groom.OwnsOne(x => x.Name);
-            groom.OwnsOne(x => x.BirthPlace);
-            groom.OwnsOne(x => x.Residence);
+            groom.OwnsOne(p => p.Name);
+            groom.OwnsOne(p => p.BirthPlace);
+            groom.OwnsOne(p => p.Residence);
 
-            groom.OwnsOne(x => x.Parents, parents =>
+            groom.OwnsOne(p => p.Parents, parents =>
             {
-                parents.OwnsOne(x => x.Father, father =>
+                parents.OwnsOne(p => p.Father, father =>
                 {
-                    father.OwnsOne(x => x.Name);
-                    father.OwnsOne(x => x.Residence);
+                    father.OwnsOne(p => p.Name);
+                    father.OwnsOne(p => p.Residence);
                 });
 
-                parents.OwnsOne(x => x.Mother, mother =>
+                parents.OwnsOne(p => p.Mother, mother =>
                 {
-                    mother.OwnsOne(x => x.Name);
-                    mother.OwnsOne(x => x.Residence);
+                    mother.OwnsOne(p => p.Name);
+                    mother.OwnsOne(p => p.Residence);
                 });
             });
         });
 
-        builder.OwnsOne(x => x.Bride, bride =>
+        builder.OwnsOne(ml => ml.Bride, bride =>
         {
-            bride.OwnsOne(x => x.Name);
-            bride.OwnsOne(x => x.BirthPlace);
-            bride.OwnsOne(x => x.Residence);
+            bride.OwnsOne(p => p.Name);
+            bride.OwnsOne(p => p.BirthPlace);
+            bride.OwnsOne(p => p.Residence);
 
-            bride.OwnsOne(x => x.Parents, parents =>
+            bride.OwnsOne(p => p.Parents, parents =>
             {
-                parents.OwnsOne(x => x.Father, father =>
+                parents.OwnsOne(p => p.Father, father =>
                 {
-                    father.OwnsOne(x => x.Name);
-                    father.OwnsOne(x => x.Residence);
+                    father.OwnsOne(p => p.Name);
+                    father.OwnsOne(p => p.Residence);
                 });
 
-                parents.OwnsOne(x => x.Mother, mother =>
+                parents.OwnsOne(p => p.Mother, mother =>
                 {
-                    mother.OwnsOne(x => x.Name);
-                    mother.OwnsOne(x => x.Residence);
+                    mother.OwnsOne(p => p.Name);
+                    mother.OwnsOne(p => p.Residence);
                 });
             });
         });
+        
+        builder.HasOne(ml => ml.ApplicationForm)
+            .WithOne(af => af.MarriageLicense)
+            .HasForeignKey<MarriageLicense>(ml => ml.ApplicationFormId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

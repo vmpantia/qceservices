@@ -16,6 +16,7 @@ public sealed class GetMarriageLicensesQueryHandler(IMarriageLicenseRepository m
     {
         var data = await marriageLicenseRepository
             .Get()
+            .Include(tbl => tbl.ApplicationForm)
             .ToListAsync(cancellationToken);
 
         var result = mapper.Map<List<MarriageLicenseDto>>(data);

@@ -1,13 +1,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QCEServices.Application.MarriageLicenses.Commands;
 using QCEServices.Application.MarriageLicenses.Queries;
+using QCEServices.Shared.MarriageLicenses.Dtos;
 
 namespace QCEServices.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MarriageLicensesController(IMediator mediator) : ControllerBase
+public sealed class MarriageLicensesController(IMediator mediator) : ControllerBase
 {
+    [HttpPost]
+    public async Task<IActionResult> CreateMarriageLicenseAsync([FromBody] SaveMarriageLicenseDto request)
+    {
+        var result = await mediator.Send(new CreateMarriageLicenseCommand(request));
+        return Ok(result);
+    }
+    
     [HttpGet]
     public async Task<IActionResult> GetMarriageLicensesAsync()
     {

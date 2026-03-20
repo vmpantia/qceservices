@@ -12,8 +12,8 @@ using QCEServices.Infrastructure.DataAccess.Contexts;
 namespace QCEServices.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(QCEServicesDbContext))]
-    [Migration("20260317081420_Initial")]
-    partial class Initial
+    [Migration("20260320115046_AddInitialMigration")]
+    partial class AddInitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,12 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubmittedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -103,12 +109,12 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
             modelBuilder.Entity("QCEServices.Domain.Entities.MarriageLicense", b =>
                 {
                     b.HasOne("QCEServices.Domain.Entities.ApplicationForm", "ApplicationForm")
-                        .WithMany()
-                        .HasForeignKey("ApplicationFormId")
+                        .WithOne("MarriageLicense")
+                        .HasForeignKey("QCEServices.Domain.Entities.MarriageLicense", "ApplicationFormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("QCEServices.Domain.Entities.Party", "Bride", b1 =>
+                    b.OwnsOne("QCEServices.Shared.Models.Party", "Bride", b1 =>
                         {
                             b1.Property<Guid>("MarriageLicenseId")
                                 .HasColumnType("uniqueidentifier");
@@ -134,7 +140,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("MarriageLicenseId");
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Place", "BirthPlace", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Place", "BirthPlace", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -159,7 +165,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .HasForeignKey("PartyMarriageLicenseId");
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Person", "Name", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -183,7 +189,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .HasForeignKey("PartyMarriageLicenseId");
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Parents", "Parents", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Parents", "Parents", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -195,7 +201,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                     b2.WithOwner()
                                         .HasForeignKey("PartyMarriageLicenseId");
 
-                                    b2.OwnsOne("QCEServices.Domain.Entities.Parent", "Father", b3 =>
+                                    b2.OwnsOne("QCEServices.Shared.Models.Parent", "Father", b3 =>
                                         {
                                             b3.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                 .HasColumnType("uniqueidentifier");
@@ -214,7 +220,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.WithOwner()
                                                 .HasForeignKey("ParentsPartyMarriageLicenseId");
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Person", "Name", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -238,7 +244,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                                         .HasForeignKey("ParentsPartyMarriageLicenseId");
                                                 });
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -276,7 +282,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Residence");
                                         });
 
-                                    b2.OwnsOne("QCEServices.Domain.Entities.Parent", "Mother", b3 =>
+                                    b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
                                         {
                                             b3.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                 .HasColumnType("uniqueidentifier");
@@ -295,7 +301,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.WithOwner()
                                                 .HasForeignKey("ParentsPartyMarriageLicenseId");
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Person", "Name", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -319,7 +325,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                                         .HasForeignKey("ParentsPartyMarriageLicenseId");
                                                 });
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -364,7 +370,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .IsRequired();
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -409,7 +415,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsOne("QCEServices.Domain.Entities.Party", "Groom", b1 =>
+                    b.OwnsOne("QCEServices.Shared.Models.Party", "Groom", b1 =>
                         {
                             b1.Property<Guid>("MarriageLicenseId")
                                 .HasColumnType("uniqueidentifier");
@@ -435,7 +441,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("MarriageLicenseId");
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Place", "BirthPlace", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Place", "BirthPlace", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -460,7 +466,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .HasForeignKey("PartyMarriageLicenseId");
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Person", "Name", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -484,7 +490,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .HasForeignKey("PartyMarriageLicenseId");
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Parents", "Parents", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Parents", "Parents", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -496,7 +502,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                     b2.WithOwner()
                                         .HasForeignKey("PartyMarriageLicenseId");
 
-                                    b2.OwnsOne("QCEServices.Domain.Entities.Parent", "Father", b3 =>
+                                    b2.OwnsOne("QCEServices.Shared.Models.Parent", "Father", b3 =>
                                         {
                                             b3.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                 .HasColumnType("uniqueidentifier");
@@ -515,7 +521,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.WithOwner()
                                                 .HasForeignKey("ParentsPartyMarriageLicenseId");
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Person", "Name", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -539,7 +545,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                                         .HasForeignKey("ParentsPartyMarriageLicenseId");
                                                 });
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -577,7 +583,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Residence");
                                         });
 
-                                    b2.OwnsOne("QCEServices.Domain.Entities.Parent", "Mother", b3 =>
+                                    b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
                                         {
                                             b3.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                 .HasColumnType("uniqueidentifier");
@@ -596,7 +602,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.WithOwner()
                                                 .HasForeignKey("ParentsPartyMarriageLicenseId");
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Person", "Name", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Person", "Name", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -620,7 +626,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                                         .HasForeignKey("ParentsPartyMarriageLicenseId");
                                                 });
 
-                                            b3.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b4 =>
+                                            b3.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b4 =>
                                                 {
                                                     b4.Property<Guid>("ParentsPartyMarriageLicenseId")
                                                         .HasColumnType("uniqueidentifier");
@@ -665,7 +671,7 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                         .IsRequired();
                                 });
 
-                            b1.OwnsOne("QCEServices.Domain.Entities.Address", "Residence", b2 =>
+                            b1.OwnsOne("QCEServices.Shared.Models.Address", "Residence", b2 =>
                                 {
                                     b2.Property<Guid>("PartyMarriageLicenseId")
                                         .HasColumnType("uniqueidentifier");
@@ -716,6 +722,12 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Groom")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("QCEServices.Domain.Entities.ApplicationForm", b =>
+                {
+                    b.Navigation("MarriageLicense")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

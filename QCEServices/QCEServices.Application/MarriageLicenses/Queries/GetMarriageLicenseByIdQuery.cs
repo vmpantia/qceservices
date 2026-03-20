@@ -1,5 +1,6 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using QCEServices.Application.Contracts;
 using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Shared.MarriageLicenses.Dtos;
@@ -14,7 +15,9 @@ public sealed class GetMarriageLicenseByIdQueryHandler(IMarriageLicenseRepositor
     public async Task<Result<MarriageLicenseDto>> Handle(GetMarriageLicenseByIdQuery request, CancellationToken cancellationToken)
     {
         var data = await marriageLicenseRepository
-            .GetOneAsync(ml => ml.Id == request.Id, cancellationToken);
+            .Get(ml => ml.Id == request.Id)
+            .Include(tbl => tbl.ApplicationForm)
+            .FirstOrDefaultAsync(cancellationToken);
 
         var result = mapper.Map<MarriageLicenseDto>(data);
 
