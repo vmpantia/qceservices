@@ -15,7 +15,7 @@ public sealed class AuditEntitiesInterceptor(IHttpContextAccessor httpContextAcc
         return base.SavingChanges(eventData, result);
     }
 
-    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = new CancellationToken())
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         // Get database context and audit entities if necessary
         var dbContext = eventData.Context;

@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCEServices.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCEServices.Api", "QCEServices.Api\QCEServices.Api.csproj", "{C592B0BA-1509-4150-836D-BA8A1D10B7C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QCEServices.Application", "QCEServices.Application\QCEServices.Application.csproj", "{E904D311-BE89-43DA-81A4-F7A9A30CDE4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C592B0BA-1509-4150-836D-BA8A1D10B7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C592B0BA-1509-4150-836D-BA8A1D10B7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C592B0BA-1509-4150-836D-BA8A1D10B7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E904D311-BE89-43DA-81A4-F7A9A30CDE4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E904D311-BE89-43DA-81A4-F7A9A30CDE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E904D311-BE89-43DA-81A4-F7A9A30CDE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E904D311-BE89-43DA-81A4-F7A9A30CDE4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
