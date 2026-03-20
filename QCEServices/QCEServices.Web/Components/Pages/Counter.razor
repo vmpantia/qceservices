@@ -8,6 +8,7 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<MudButton Variant="Variant.Filled" OnClick="IncrementCount">Default</MudButton>
 
 @code {
     private int currentCount = 0;
