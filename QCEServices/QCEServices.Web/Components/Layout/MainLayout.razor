@@ -7,22 +7,13 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudText Class="ml-2">Quezon City E-Services</MudText>
+        <MudText Class="ml-2">Quezon City <b>E-Services</b></MudText>
     </MudAppBar>
     <MudDrawer Elevation="1" Open="true" ClipMode="DrawerClipMode.Always">
-        <MudNavMenu Bordered="true">
-            <MudNavLink Href="/students" Icon="@Icons.Material.Filled.School">Students</MudNavLink>
-            <MudNavLink Href="/instructors" Icon="@Icons.Material.Filled.SupervisedUserCircle">Instructors</MudNavLink>
-            <MudNavGroup Title="Courses" Icon="@Icons.Material.Outlined.Subject" Expanded="true">
-                <MudNavLink Href="/courses" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.ListAlt">All</MudNavLink>
-                <MudNavLink Href="/courses/categories" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Category">Categories</MudNavLink>
-                <MudNavLink Href="/courses/sessions" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.LaptopChromebook">Sessions</MudNavLink>
-            </MudNavGroup>
-            <MudNavLink Href="/enrollments" Icon="@Icons.Material.Outlined.DynamicForm">Enrollments</MudNavLink>
-        </MudNavMenu>
+        <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6">
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-6">
             @Body
         </MudContainer>
     </MudMainContent>
