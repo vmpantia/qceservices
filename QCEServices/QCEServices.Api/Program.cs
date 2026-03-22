@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using QCEServices.Api;
 using QCEServices.Application;
 using QCEServices.Infrastructure;
+using QCEServices.Infrastructure.DataAccess.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<QCEServicesDbContext>();
+    db.Database.Migrate();
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
