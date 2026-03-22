@@ -1,4 +1,13 @@
 ﻿services:
+  
+  qceservices.web:
+    image: qceservices.web
+    build:
+      context: .
+      dockerfile: QCEServices.Web/Dockerfile
+    ports:
+      - "8083:8080"
+  
   qceservices.api:
     image: qceservices.api
     build:
@@ -18,7 +27,6 @@
         Encrypt=True;
         TrustServerCertificate=True;
 
-
   qceservices.db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
@@ -32,9 +40,4 @@
         
 volumes:
   sql_data:
-
-
-
-  
-
 
