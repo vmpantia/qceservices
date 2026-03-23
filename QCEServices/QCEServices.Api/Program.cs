@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using QCEServices.Api;
 using QCEServices.Application;
@@ -24,9 +25,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("users/me", (ClaimsPrincipal principal) =>
+{
+    return principal.Claims.ToDictionary(c => c.Type, c => c.Value);
+}).RequireAuthorization();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

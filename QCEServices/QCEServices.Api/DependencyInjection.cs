@@ -1,59 +1,63 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using QCEServices.Application.Common.Authentication;
 
 namespace QCEServices.Api;
 
-public static class DependencyInjection
+internal static class DependencyInjection
 {
     extension(IServiceCollection services)
     {
-        public void AddApi(IConfiguration configuration)
+        internal void AddApi(IConfiguration configuration)
         {
-            services.AddJwtAuthentication(configuration);
-            services.AddAuthorization();
-            services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();  
             services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGenWithAuth();
+            services.AddSwaggerGenWithAuth(configuration);
+            services.AddAuthorization();
+            services.AddJwtAuthentication(configuration);
         }
         
-        private void AddSwaggerGenWithAuth()
+        private void AddSwaggerGenWithAuth(IConfiguration configuration)
         {
             services.AddSwaggerGen(opt =>
             {
-                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                opt.AddSecurityDefinition("Keycloak", new OpenApiSecurityScheme
                 {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                    BearerFormat = "JWT",
-                    Description = "JWT Authorization header using the Bearer scheme."
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri(configuration["Keycloak:AuthorizationUrl"]!),
+                            TokenUrl = new Uri(configuration["Keycloak:TokenUrl"]!),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "openid", "openid" },
+                                { "profile", "profile" }
+                            }
+                        }
+                    }
                 });
+                
                 opt.AddSecurityRequirement(document => new OpenApiSecurityRequirement
                 {
-                    [new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme, document)] = []
+                    {
+                        new OpenApiSecuritySchemeReference("Keycloak", document), 
+                        []
+                    }
                 });
             });
         }
 
         private void AddJwtAuthentication(IConfiguration configuration)
         {
-            var jwtSetting = JwtSetting.FromConfiguration(configuration);
-            services.AddSingleton(jwtSetting);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
-                    opt.RequireHttpsMetadata = true;
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.Secret)),
-                        ValidIssuer = jwtSetting.Issuer,
-                        ValidAudience = jwtSetting.Audience,
-                        ClockSkew = TimeSpan.Zero
-                    };
+                    opt.Authority = "http://localhost:18080/realms/qrservices-auth";
+                    opt.Audience  = "account";
+                    opt.RequireHttpsMetadata = false;
                 });
         }
     }

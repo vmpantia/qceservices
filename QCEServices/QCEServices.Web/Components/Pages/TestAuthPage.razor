@@ -1,0 +1,16 @@
+@page "/TestAuthPage"
+
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity?.Name
+        <a href="logout">Logout</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="login">Login</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    
+}
