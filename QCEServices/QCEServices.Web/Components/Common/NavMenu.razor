@@ -1,7 +1,11 @@
-<MudNavMenu Bordered="true">
-    <MudNavGroup Title="Civil Registry" Expanded="true">
-        <MudNavGroup Title="Marriage" Expanded="true">
-            <MudNavLink Href="/civil-registry/marriage/licenses">Licenses</MudNavLink>
+<MudNavMenu>
+    <MudNavGroup Title="Civil Registry" Icon="@Icons.Material.Filled.Newspaper" HideExpandIcon="true" Expanded="true">
+        <MudNavLink Href="/civil-registry/birth-certificates" Match="NavLinkMatch.All">Birth Certificates</MudNavLink>
+        <MudNavGroup Title="Marriage Licenses" HideExpandIcon="true" Expanded="true">
+            <MudNavLink Href="/civil-registry/marriage-licenses" Match="NavLinkMatch.All">View</MudNavLink>
+            <MudNavLink Href="/civil-registry/marriage-licenses/apply" Match="NavLinkMatch.All">Apply</MudNavLink>
         </MudNavGroup>
+        <MudNavLink Href="/civil-registry/death-certificates" Match="NavLinkMatch.All">Death Certificates</MudNavLink>
+        <MudNavLink Href="/civil-registry/corrections" Match="NavLinkMatch.All">Corrections</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>

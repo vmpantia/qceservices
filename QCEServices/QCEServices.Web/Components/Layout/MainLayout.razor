@@ -9,12 +9,12 @@
     <MudAppBar Elevation="1">
         <MudText Class="ml-2">Quezon City <b>E-Services</b></MudText>
     </MudAppBar>
-    <MudDrawer Elevation="1" Open="true" ClipMode="DrawerClipMode.Always">
-        <NavMenu />
-    </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6">
-            @Body
+        <MudContainer Class="d-flex mt-10" MaxWidth="MaxWidth.ExtraLarge">
+            <NavMenu />
+            <MudContainer>
+                @Body
+            </MudContainer>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
