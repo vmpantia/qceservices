@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using QCEServices.Domain.Interfaces;
 
-namespace QCEServices.Application.Common.Behaviors;
+namespace QCEServices.Application.Behaviors;
 
 internal sealed class DbTransactionPipelineBehavior<TRequest, TResponse>(ILogger<ValidationPipelineBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {

@@ -57,6 +57,7 @@ public class MarriageLicenseConfig : IEntityTypeConfiguration<MarriageLicense>
         builder.HasOne(ml => ml.ApplicationForm)
             .WithOne(af => af.MarriageLicense)
             .HasForeignKey<MarriageLicense>(ml => ml.ApplicationFormId)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

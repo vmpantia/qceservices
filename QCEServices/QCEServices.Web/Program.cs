@@ -1,13 +1,15 @@
 using MudBlazor.Services;
+using QCEServices.Web;
 using QCEServices.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAuthorizationCore();
+builder.Services.AddAuthenticationServices();
 builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

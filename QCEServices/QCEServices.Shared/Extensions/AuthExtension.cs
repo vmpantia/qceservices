@@ -15,7 +15,7 @@ public static class AuthExtension
             return Guid.TryParse(upn, out var upnGuid) ? upnGuid : Guid.Empty;
         }
         
-        public string GetClaimValue(string claimType) =>
+        private string GetClaimValue(string claimType) =>
             user.Claims.FirstOrDefault(c => c.Type == claimType)?.Value ?? string.Empty;
     }
 }

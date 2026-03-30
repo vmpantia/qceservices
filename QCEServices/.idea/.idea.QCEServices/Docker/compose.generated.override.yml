@@ -15,7 +15,7 @@ services:
     - "--mode=server"
     - "--frontend-port=57000"
     - "--backend-port=57200"
-    - "--roslyn-worker-port=57412"
+    - "--roslyn-worker-port=57424"
     - "--timeout=60"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
@@ -23,9 +23,9 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "qceservices.api:dev"
     ports:
-    - "127.0.0.1:53250:57000"
-    - "127.0.0.1:57212:57200"
-    - "127.0.0.1:57412:57412"
+    - "127.0.0.1:57024:57000"
+    - "127.0.0.1:57224:57200"
+    - "127.0.0.1:57424:57424"
     volumes:
     - "C:\\Users\\vince\\RiderProjects\\qceservices\\QCEServices\\QCEServices.Api:/app:rw"
     - "C:\\Users\\vince\\RiderProjects\\qceservices\\QCEServices:/src:rw"
@@ -34,7 +34,7 @@ services:
       Linux64:/opt/JetBrains/RiderDebuggerTools"
     - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.1.4\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     - "C:\\Users\\vince\\AppData\\Local\\JetBrains\\Rider2025.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2026_3_26_18_23_35:/var/opt/JetBrains/RiderDebuggerTools:rw"
+      JetBrains.Debugger.Worker.2026_3_30_16_45_06:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
   qceservices.web:
     build:
@@ -51,7 +51,7 @@ services:
     - "--mode=server"
     - "--frontend-port=57000"
     - "--backend-port=57200"
-    - "--roslyn-worker-port=57413"
+    - "--roslyn-worker-port=57425"
     - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
@@ -61,9 +61,9 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "qceservices.web:dev"
     ports:
-    - "127.0.0.1:53251:57000"
-    - "127.0.0.1:57213:57200"
-    - "127.0.0.1:57413:57413"
+    - "127.0.0.1:57025:57000"
+    - "127.0.0.1:57225:57200"
+    - "127.0.0.1:57425:57425"
     volumes:
     - "C:\\Users\\vince\\RiderProjects\\qceservices\\QCEServices\\QCEServices.Web:/app:rw"
     - "C:\\Users\\vince\\RiderProjects\\qceservices\\QCEServices:/src:rw"
@@ -72,5 +72,5 @@ services:
       Linux64:/opt/JetBrains/RiderDebuggerTools"
     - "C:\\Program Files\\JetBrains\\JetBrains Rider 2025.1.4\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     - "C:\\Users\\vince\\AppData\\Local\\JetBrains\\Rider2025.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2026_3_26_18_23_35:/var/opt/JetBrains/RiderDebuggerTools:rw"
+      JetBrains.Debugger.Worker.2026_3_30_16_45_06:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"

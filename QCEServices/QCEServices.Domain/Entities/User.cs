@@ -20,5 +20,6 @@ public class User : IAuditableEntity, IDeletableEntity
      public DateTime? DeletedAt { get; set; }
      public string? DeletedBy { get; set; }
      
-     public virtual IList<ApplicationForm> ApplicationForms { get; set; }
+     public IList<ApplicationForm> ApplicationForms { get; set; }
+     public IList<Token> Tokens { get; set; }
 }

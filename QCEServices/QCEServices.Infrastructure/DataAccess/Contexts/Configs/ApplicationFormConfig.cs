@@ -14,6 +14,7 @@ public class ApplicationFormConfig : IEntityTypeConfiguration<ApplicationForm>
 
         builder.HasOne(af => af.Applicant)
             .WithMany(u => u.ApplicationForms)
-            .HasForeignKey(af => af.ApplicantId);
+            .HasForeignKey(af => af.ApplicantId)
+            .IsRequired();
     }
 }

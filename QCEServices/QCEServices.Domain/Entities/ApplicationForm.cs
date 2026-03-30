@@ -19,6 +19,6 @@ public class ApplicationForm : IAuditableEntity, IDeletableEntity
     public DateTime? DeletedAt { get; set; }
     public string? DeletedBy { get; set; }
     
-    public virtual MarriageLicense MarriageLicense { get; set; }
-    public virtual User Applicant { get; set; }
+    public MarriageLicense MarriageLicense { get; set; }
+    public User Applicant { get; set; }
 }

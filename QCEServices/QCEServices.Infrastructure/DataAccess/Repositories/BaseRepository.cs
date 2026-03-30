@@ -21,7 +21,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 
     public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate) => Table.Where(predicate);
 
-    public async Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) => await Table.SingleOrDefaultAsync(expression, cancellationToken);
+    public async Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) => await Table.FirstOrDefaultAsync(expression, cancellationToken);
 
     public async Task<bool> IsExistAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) => await Table.AnyAsync(expression, cancellationToken);
 

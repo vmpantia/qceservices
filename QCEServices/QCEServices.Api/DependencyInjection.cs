@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using QCEServices.Application.Common.Authentication;
+using QCEServices.Application.Authentication;
 
 namespace QCEServices.Api;
 
@@ -41,18 +41,20 @@ public static class DependencyInjection
 
         private void AddJwtAuthentication(IConfiguration configuration)
         {
-            var jwtSetting = JwtSetting.FromConfiguration(configuration);
-            services.AddSingleton(jwtSetting);
+            var authSetting = AuthenticationSetting.FromConfiguration(configuration);
+            services.AddSingleton(authSetting);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
                     opt.RequireHttpsMetadata = true;
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.Secret)),
-                        ValidIssuer = jwtSetting.Issuer,
-                        ValidAudience = jwtSetting.Audience,
-                        ClockSkew = TimeSpan.Zero
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = authSetting.Jwt.Issuer,
+                        ValidAudience = authSetting.Jwt.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSetting.Jwt.Secret))
                     };
                 });
         }

@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using QCEServices.Domain.Entities;
 using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Authentication;
 using QCEServices.Domain.Interfaces.Repositories;
@@ -10,7 +11,7 @@ using QCEServices.Shared.Validators.Users;
 
 namespace QCEServices.Application.Users.Commands;
 
-public sealed record LoginUserCommand(LoginUserDto Login) : IRequest<Result<string>>, ICommand;
+public sealed record LoginUserCommand(LoginUserDto Login) : IRequest<Result<(string AccessToken, Token RefreshToken)>>, ICommand;
 
 public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
 {
@@ -20,11 +21,10 @@ public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserComma
     }
 }
 
-public sealed class LoginUserCommandHandler(IUserRepository userRepository, 
-    IPasswordHasher passwordHasher,
-    ITokenProvider tokenProvider) : IRequestHandler<LoginUserCommand, Result<string>>
+public sealed class LoginUserCommandHandler(IUserRepository userRepository, ITokenRepository tokenRepository,
+    IStringHasher stringHasher, ITokenProvider tokenProvider) : IRequestHandler<LoginUserCommand, Result<(string AccessToken, Token RefreshToken)>>
 {
-    public async Task<Result<string>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<(string AccessToken, Token RefreshToken)>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var user = await userRepository.GetOneAsync(expression: u =>
                 u.Username == request.Login.UsernameOrEmail ||
@@ -33,8 +33,13 @@ public sealed class LoginUserCommandHandler(IUserRepository userRepository,
 
         if (user is null) return UserError.UsernameOrEmailNotFound();
         
-        if (!passwordHasher.Verify(request.Login.Password, user.Password)) return UserError.PasswordIncorrect();
+        if (!stringHasher.VerifyPassword(request.Login.Password, user.Password)) return UserError.PasswordIncorrect();
 
-        return tokenProvider.Create(user);
+        var accessToken = tokenProvider.CreateAccessToken(user);
+        
+        var refreshToken = tokenProvider.CreateRefreshToken(user);
+        await tokenRepository.CreateAsync(refreshToken, cancellationToken);
+        
+        return (accessToken, refreshToken);
     }
 }

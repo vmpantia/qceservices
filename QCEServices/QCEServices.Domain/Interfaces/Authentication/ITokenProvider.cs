@@ -4,5 +4,6 @@ namespace QCEServices.Domain.Interfaces.Authentication;
 
 public interface ITokenProvider
 {
-    string Create(User user);
+    string CreateAccessToken(User user);
+    Token CreateRefreshToken(User user);
 }

@@ -6,7 +6,7 @@ public class Result<TData>
 {
     public Result() { }
     
-    private Result(TData data)
+    public Result(TData data)
     {
         Data = data;
         Error = null;

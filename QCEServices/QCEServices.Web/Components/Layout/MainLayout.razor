@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using QCEServices.Web.Authentication
+@inherits LayoutComponentBase
 
 <MudThemeProvider />
 <MudPopoverProvider />
@@ -18,3 +19,26 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+@code
+{
+    [Inject] private IAccessTokenService AccessTokenService { get; set; }
+    [Inject] private IAuthenticationService AuthenticationService { get; set; }
+    [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AccessTokenService.IsAuthenticated) return;
+        
+        try
+        {
+            var newToken = await AuthenticationService.RefreshUserTokenAsync();
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(newToken);
+        }
+        catch
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+}

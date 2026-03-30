@@ -18,5 +18,5 @@ public class MarriageLicense : IAuditableEntity, IDeletableEntity
     public DateTime? DeletedAt { get; set; }
     public string? DeletedBy { get; set; }
     
-    public virtual ApplicationForm ApplicationForm { get; set; }
+    public ApplicationForm ApplicationForm { get; set; }
 }
