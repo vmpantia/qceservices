@@ -1,17 +1,19 @@
-using Microsoft.AspNetCore.Components.Authorization;
-using QCEServices.Web.Authentication;
+using QCEServices.Web.Contracts.Services.Apis;
+using QCEServices.Web.Services.Apis;
 
 namespace QCEServices.Web;
 
 public static class DependencyInjection
 {
-    public static void AddAuthenticationServices(this IServiceCollection services)
+    public static void AddApiServices(this IServiceCollection services)
     {
-        services.AddScoped<IAccessTokenService, AccessTokenService>();
-        services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
+        services.AddHttpClient<IAuthenticationApiService, AuthenticationApiService>(client =>
         {
-            client.BaseAddress = new Uri("http://localhost:5001/");
+            client.BaseAddress = new Uri("http://qceservices.api:8080");
         });
-        services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+        services.AddHttpClient<IMarriageLicenseApiService, MarriageLicenseApiService>(client =>
+        {
+            client.BaseAddress = new Uri("http://qceservices.api:8080");
+        });
     }
 }

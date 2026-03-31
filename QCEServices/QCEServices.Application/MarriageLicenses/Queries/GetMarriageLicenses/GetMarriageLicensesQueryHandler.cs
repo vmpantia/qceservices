@@ -1,14 +1,11 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 using QCEServices.Shared.Responses;
 
-namespace QCEServices.Application.MarriageLicenses.Queries;
-
-public sealed record GetMarriageLicensesQuery : IRequest<Result<IEnumerable<MarriageLicenseDto>>>, IQuery;
+namespace QCEServices.Application.MarriageLicenses.Queries.GetMarriageLicenses;
 
 public sealed class GetMarriageLicensesQueryHandler(IMarriageLicenseRepository marriageLicenseRepository, IMapper mapper) : IRequestHandler<GetMarriageLicensesQuery, Result<IEnumerable<MarriageLicenseDto>>>
 {

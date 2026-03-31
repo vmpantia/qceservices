@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using QCEServices.Application.Authentication;
 using QCEServices.Application.Behaviors;
-using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Authentication;
 
 namespace QCEServices.Application;

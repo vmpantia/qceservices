@@ -1,9 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using QCEServices.Application.Users.Commands;
-using QCEServices.Shared.Extensions;
-using QCEServices.Shared.Models.Dtos.Users;
-using QCEServices.Shared.Responses;
+using QCEServices.Application.Authentication;
+using QCEServices.Application.Authentication.Commands.Login;
+using QCEServices.Application.Authentication.Commands.Refresh;
+using QCEServices.Domain.Authentication;
+using QCEServices.Shared.Enums;
+using QCEServices.Shared.Models.Dtos.Authentication;
+using QCEServices.Shared.Responses.Errors;
 
 namespace QCEServices.Api.Controllers;
 
@@ -12,49 +15,78 @@ namespace QCEServices.Api.Controllers;
 public class AuthenticationController(IMediator mediator) : ControllerBase
 {
     [HttpPost("Login")]
-    public async Task<IActionResult> LoginUserAsync([FromBody] LoginUserDto request)
+    public async Task<IActionResult> LoginAsync([FromBody] LoginDto request)
     {
-        var result = await mediator.Send(new LoginUserCommand(request));
+        var result = await mediator.Send(new LoginCommand(request));
 
-        if (result.IsSuccess)
+        if (!result.IsSuccess)
         {
-            Response.Cookies.Append("refresh_token", 
-                result.Data.RefreshToken.Value, 
-                new CookieOptions {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = result.Data.RefreshToken.ExpiresAt
-            });
-        
-            return Ok(new Result<string>(result.Data.AccessToken));
+            return result.Error?.Type switch
+            {
+                ErrorType.Unauthorized => Unauthorized(result),
+                ErrorType.NotFound => NotFound(result),
+                _ => BadRequest(result),
+            };
         }
+        
+        SetAuthTokensToCookies(result.Data!);
+        return Ok();
+    }
 
-        return BadRequest(result);
+    [HttpPost("Refresh")]
+    public async Task<IActionResult> RefreshTokenAsync()
+    {
+        if (!Request.Cookies.TryGetValue(RefreshToken.CookieName, out var refreshToken))
+            return Unauthorized(TokenError.InvalidRefreshToken());
+
+        var result = await mediator.Send(new RefreshCommand(refreshToken));
+
+        if (!result.IsSuccess)
+        {
+            return result.Error?.Type switch
+            {
+                ErrorType.Unauthorized => Unauthorized(result),
+                ErrorType.NotFound => NotFound(result),
+                _ => BadRequest(result),
+            };
+        }
+        
+        SetAuthTokensToCookies(result.Data!);
+        return Ok();
     }
     
-    [HttpPost("Refresh")]
-    public async Task<IActionResult> RefreshUserTokenAsync()
+    [HttpPost("Logout")]
+    public async Task<IActionResult> LogoutAsync()
     {
-        var user = HttpContext.User.GetEmail();
-        var refreshToken = HttpContext.Request.Cookies["refresh_token"] ?? string.Empty;
-        
-        var result = await mediator.Send(new RefreshUserTokenCommand(user, refreshToken));
+        Response.Cookies.Delete(AccessToken.CookieName);
+        Response.Cookies.Delete(RefreshToken.CookieName);
+        return Ok();
+    }
 
-        if (result.IsSuccess)
-        {
-            Response.Cookies.Append("refresh_token", 
-                result.Data.RefreshToken.Value, 
-                new CookieOptions {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = result.Data.RefreshToken.ExpiresAt
-                });
+    private void SetAuthTokensToCookies(AuthTokens authTokens)
+    {
+        Response.Cookies.Append(
+            AccessToken.CookieName,
+            authTokens.AccessToken.Value,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = authTokens.AccessToken.Expiration,
+                Path = "/"
+            });
         
-            return Ok(new Result<string>(result.Data.AccessToken));
-        }
-
-        return BadRequest(result);
+        Response.Cookies.Append(
+            RefreshToken.CookieName,
+            authTokens.RefreshToken.Value,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = authTokens.RefreshToken.Expiration,
+                Path = "/"
+            });
     }
 }

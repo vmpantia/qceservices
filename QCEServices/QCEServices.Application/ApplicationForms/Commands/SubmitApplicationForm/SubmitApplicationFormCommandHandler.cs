@@ -1,13 +1,10 @@
 using MediatR;
-using QCEServices.Domain.Interfaces;
 using QCEServices.Domain.Interfaces.Repositories;
 using QCEServices.Shared.Enums;
 using QCEServices.Shared.Responses;
 using QCEServices.Shared.Responses.Errors;
 
-namespace QCEServices.Application.ApplicationForms.Commands;
-
-public sealed record SubmitApplicationFormCommand(Guid Id) : IRequest<Result<Guid>>, ICommand;
+namespace QCEServices.Application.ApplicationForms.Commands.SubmitApplicationForm;
 
 public sealed class SubmitApplicationFormCommandHandler(IApplicationFormRepository applicationFormRepository) : IRequestHandler<SubmitApplicationFormCommand, Result<Guid>>
 {

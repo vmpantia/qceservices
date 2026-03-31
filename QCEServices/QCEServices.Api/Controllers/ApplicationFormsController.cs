@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QCEServices.Application.ApplicationForms.Commands;
+using QCEServices.Application.ApplicationForms.Commands.SubmitApplicationForm;
 
 namespace QCEServices.Api.Controllers;
 

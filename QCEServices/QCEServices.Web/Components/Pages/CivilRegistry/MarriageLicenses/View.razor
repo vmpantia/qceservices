@@ -1,0 +1,42 @@
+@page "/civil-registry/marriage-licenses"
+@using QCEServices.Shared.Models.Dtos.MarriageLicenses
+@using QCEServices.Web.Contracts.Services.Apis
+
+<h3>View</h3>
+
+@if (_isLoading)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <p>@(_marriageLicenses?.Count() ?? 0)</p>
+}
+
+@code {
+    
+    [Inject] private IMarriageLicenseApiService MarriageLicenseApiService { get; set; }
+    [Inject] private ISnackbar Snackbar { get; set; }
+    
+    private IEnumerable<MarriageLicenseDto> _marriageLicenses;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _isLoading = true;
+
+            _marriageLicenses = await MarriageLicenseApiService.GetAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+    
+}

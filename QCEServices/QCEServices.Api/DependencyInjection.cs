@@ -1,8 +1,8 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
-using QCEServices.Application.Authentication;
+using QCEServices.Application.Authentication.Settings;
+using QCEServices.Domain.Authentication;
 
 namespace QCEServices.Api;
 
@@ -12,37 +12,28 @@ public static class DependencyInjection
     {
         public void AddApi(IConfiguration configuration)
         {
+            services.AddSettings(configuration);
             services.AddJwtAuthentication(configuration);
             services.AddAuthorization();
             services.AddHttpContextAccessor();
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGenWithAuth();
+            services.AddSwaggerGen();
         }
-        
-        private void AddSwaggerGenWithAuth()
+
+        private void AddSettings(IConfiguration configuration)
         {
-            services.AddSwaggerGen(opt =>
-            {
-                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme,
-                    BearerFormat = "JWT",
-                    Description = "JWT Authorization header using the Bearer scheme."
-                });
-                opt.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-                {
-                    [new OpenApiSecuritySchemeReference(JwtBearerDefaults.AuthenticationScheme, document)] = []
-                });
-            });
+            services.Configure<AccessTokenSetting>(opt => configuration.GetSection(AccessTokenSetting.ConfigurationSectionName).Bind(opt));
+            services.Configure<RefreshTokenSetting>(opt => configuration.GetSection(RefreshTokenSetting.ConfigurationSectionName).Bind(opt));
         }
 
         private void AddJwtAuthentication(IConfiguration configuration)
         {
-            var authSetting = AuthenticationSetting.FromConfiguration(configuration);
-            services.AddSingleton(authSetting);
+            var accessTokenSetting = configuration
+                .GetSection(AccessTokenSetting.ConfigurationSectionName)
+                .Get<AccessTokenSetting>()!;
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
@@ -52,9 +43,14 @@ public static class DependencyInjection
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ValidIssuer = authSetting.Jwt.Issuer,
-                        ValidAudience = authSetting.Jwt.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSetting.Jwt.Secret))
+                        ValidIssuer = accessTokenSetting.Issuer,
+                        ValidAudience = accessTokenSetting.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(accessTokenSetting.Secret))
+                    };
+                    opt.Events.OnMessageReceived = context =>
+                    {
+                        context.Token = context.HttpContext.Request.Cookies[AccessToken.CookieName];
+                        return Task.CompletedTask;
                     };
                 });
         }

@@ -1,8 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QCEServices.Application.MarriageLicenses.Commands;
-using QCEServices.Application.MarriageLicenses.Queries;
+using QCEServices.Application.MarriageLicenses.Commands.CreateMarriageLicense;
+using QCEServices.Application.MarriageLicenses.Queries.GetMarriageLicenseById;
+using QCEServices.Application.MarriageLicenses.Queries.GetMarriageLicenses;
 using QCEServices.Shared.Models.Dtos.MarriageLicenses;
 
 namespace QCEServices.Api.Controllers;
