@@ -72,4 +72,13 @@
       <ProjectReference Include="..\QCEServices.Shared\QCEServices.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Controls\FieldText.razor" />
+      <AdditionalFiles Include="Pages\Auth\Login.razor" />
+      <AdditionalFiles Include="Pages\CivilRegistry\MarriageLicenses\Apply.razor" />
+      <AdditionalFiles Include="Pages\CivilRegistry\MarriageLicenses\View.razor" />
+      <AdditionalFiles Include="Pages\Error.razor" />
+      <AdditionalFiles Include="Pages\NotFound.razor" />
+    </ItemGroup>
+
 </Project>

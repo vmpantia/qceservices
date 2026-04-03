@@ -1,0 +1,211 @@
+@page "/civil-registry/marriage-licenses/apply"
+@using QCEServices.Shared.Models.Dtos.MarriageLicenses
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h5" Style="text-align: center; font-weight: bold;">
+            Bride's Information
+        </MudText>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="First Name"
+                   @bind-Value="_request.Bride.Name.FirstName"
+                   For="@(() => _request.Bride.Name.FirstName)" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="Middle Name"
+                   @bind-Value="_request.Bride.Name.MiddleName"
+                   For="@(() => _request.Bride.Name.MiddleName)" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="Last Name" 
+                   @bind-Value="_request.Bride.Name.LastName"
+                   For="@(() => _request.Bride.Name.LastName)" />
+    </MudItem>
+    <MudItem xs="12" md="2">
+        <FieldText Label="Date of Birth"
+                   @bind-Value="_request.Bride.DateOfBirth"
+                   For="@(() => _request.Bride.DateOfBirth)" />
+    </MudItem>
+    <MudItem xs="12" md="1">
+        <FieldText T="string" Label="Years" />
+    </MudItem>
+    <MudItem xs="12" md="1">
+        <FieldText T="string" Label="Months" />
+    </MudItem>
+    <MudItem xs="12" md="2">
+        <FieldText Label="Civil Status"
+                   @bind-Value="_request.Bride.CivilStatus"
+                   For="@(() => _request.Bride.CivilStatus)" />
+    </MudItem>
+    <MudItem xs="12" md="2">
+        <FieldText Label="Citizenship"
+                   @bind-Value="_request.Bride.Citizenship"
+                   For="@(() => _request.Bride.Citizenship)" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="Religion / Religious Sector"
+                   @bind-Value="_request.Bride.Religion"
+                   For="@(() => _request.Bride.Religion)" />
+    </MudItem>
+            
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Place of Birth</MudText>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="Country"
+                   @bind-Value="_request.Bride.BirthPlace.Country"
+                   For="@(() => _request.Bride.BirthPlace.Country)" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="Province / State"
+                   @bind-Value="_request.Bride.BirthPlace.ProvinceOrState"
+                   For="@(() => _request.Bride.BirthPlace.ProvinceOrState)" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <FieldText Label="City / Municipality"
+                   @bind-Value="_request.Bride.BirthPlace.CityOrMunicipality"
+                   For="@(() => _request.Bride.BirthPlace.CityOrMunicipality)" />
+    </MudItem>
+            
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Residence</MudText>
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Country"
+                   @bind-Value="_request.Bride.Residence.Country"
+                   For="@(() => _request.Bride.Residence.Country)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Province / State"
+                   @bind-Value="_request.Bride.Residence.ProvinceOrState"
+                   For="@(() => _request.Bride.Residence.ProvinceOrState)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="City / Municipality"
+                   @bind-Value="_request.Bride.Residence.CityOrMunicipality"
+                   For="@(() => _request.Bride.Residence.CityOrMunicipality)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Barangay"
+                   @bind-Value="_request.Bride.Residence.Barangay"
+                   For="@(() => _request.Bride.Residence.Barangay)" />
+    </MudItem>
+    <MudItem xs="12">
+        <FieldText Label="House No. / Street"
+                   @bind-Value="_request.Bride.Residence.HouseNoOrStreet"
+                   For="@(() => _request.Bride.Residence.HouseNoOrStreet)" />
+    </MudItem>
+    
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Father Information</MudText>
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="First Name"
+                   @bind-Value="_request.Bride.Parents.Father.Name.FirstName"
+                   For="@(() => _request.Bride.Parents.Father.Name.FirstName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Middle Name"
+                   @bind-Value="_request.Bride.Parents.Father.Name.MiddleName"
+                   For="@(() => _request.Bride.Parents.Father.Name.MiddleName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Last Name"
+                   @bind-Value="_request.Bride.Parents.Father.Name.LastName"
+                   For="@(() => _request.Bride.Parents.Father.Name.LastName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Citizenship"
+                   @bind-Value="_request.Bride.Parents.Father.Citizenship"
+                   For="@(() => _request.Bride.Parents.Father.Citizenship)" />
+    </MudItem>
+            
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Father Residence</MudText>
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Country"
+                   @bind-Value="_request.Bride.Parents.Father.Residence.Country"
+                   For="@(() => _request.Bride.Parents.Father.Residence.Country)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Province / State"
+                   @bind-Value="_request.Bride.Parents.Father.Residence.ProvinceOrState"
+                   For="@(() => _request.Bride.Parents.Father.Residence.ProvinceOrState)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="City / Municipality"
+                   @bind-Value="_request.Bride.Parents.Father.Residence.CityOrMunicipality"
+                   For="@(() => _request.Bride.Parents.Father.Residence.CityOrMunicipality)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Barangay"
+                   @bind-Value="_request.Bride.Parents.Father.Residence.Barangay"
+                   For="@(() => _request.Bride.Parents.Father.Residence.Barangay)" />
+    </MudItem>
+    <MudItem xs="12">
+        <FieldText Label="House No. / Street" 
+                   @bind-Value="_request.Bride.Parents.Father.Residence.HouseNoOrStreet"
+                   For="@(() => _request.Bride.Parents.Father.Residence.HouseNoOrStreet)" />
+    </MudItem>
+    
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Mother Information</MudText>
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="First Name"
+                   @bind-Value="_request.Bride.Parents.Mother.Name.FirstName"
+                   For="@(() => _request.Bride.Parents.Mother.Name.FirstName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Middle Name"
+                   @bind-Value="_request.Bride.Parents.Mother.Name.MiddleName"
+                   For="@(() => _request.Bride.Parents.Mother.Name.MiddleName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Last Name"
+                   @bind-Value="_request.Bride.Parents.Mother.Name.LastName"
+                   For="@(() => _request.Bride.Parents.Mother.Name.LastName)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Citizenship"
+                   @bind-Value="_request.Bride.Parents.Mother.Citizenship"
+                   For="@(() => _request.Bride.Parents.Mother.Citizenship)" />
+    </MudItem>
+            
+    <MudItem xs="12">
+        <MudText Typo="Typo.body1" Style="font-weight: bold;">Mother Residence</MudText>
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Country"
+                   @bind-Value="_request.Bride.Parents.Mother.Residence.Country"
+                   For="@(() => _request.Bride.Parents.Mother.Residence.Country)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Province / State"
+                   @bind-Value="_request.Bride.Parents.Mother.Residence.ProvinceOrState"
+                   For="@(() => _request.Bride.Parents.Mother.Residence.ProvinceOrState)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="City / Municipality"
+                   @bind-Value="_request.Bride.Parents.Mother.Residence.CityOrMunicipality"
+                   For="@(() => _request.Bride.Parents.Mother.Residence.CityOrMunicipality)" />
+    </MudItem>
+    <MudItem xs="12" md="3">
+        <FieldText Label="Barangay"
+                   @bind-Value="_request.Bride.Parents.Mother.Residence.Barangay"
+                   For="@(() => _request.Bride.Parents.Mother.Residence.Barangay)" />
+    </MudItem>
+    <MudItem xs="12">
+        <FieldText Label="House No. / Street" 
+                   @bind-Value="_request.Bride.Parents.Mother.Residence.HouseNoOrStreet"
+                   For="@(() => _request.Bride.Parents.Mother.Residence.HouseNoOrStreet)" />
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    private SaveMarriageLicenseDto _request = new();
+
+}

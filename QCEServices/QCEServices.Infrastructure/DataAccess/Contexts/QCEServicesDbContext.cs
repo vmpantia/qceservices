@@ -8,7 +8,6 @@ public sealed class QCEServicesDbContext(DbContextOptions<QCEServicesDbContext> 
     public DbSet<ApplicationForm> ApplicationForms => Set<ApplicationForm>();
     public DbSet<MarriageLicense> MarriageLicenses => Set<MarriageLicense>();
     public DbSet<User> Users => Set<User>();
-    public DbSet<Token> Tokens => Set<Token>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

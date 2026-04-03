@@ -12,8 +12,8 @@ using QCEServices.Infrastructure.DataAccess.Contexts;
 namespace QCEServices.Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(QCEServicesDbContext))]
-    [Migration("20260320152638_AddUsersTable")]
-    partial class AddUsersTable
+    [Migration("20260403094327_AddInitialMigration")]
+    partial class AddInitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -340,7 +340,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
@@ -421,7 +422,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.Navigation("Father")
@@ -641,7 +643,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
@@ -722,7 +725,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.Navigation("Father")

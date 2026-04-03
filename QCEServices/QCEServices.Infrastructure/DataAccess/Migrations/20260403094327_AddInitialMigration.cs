@@ -12,12 +12,37 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name_MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ApplicationForms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    ApplicantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SubmittedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -30,6 +55,12 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationForms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApplicationForms_Users_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,21 +89,21 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                     Groom_Parents_Father_Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Father_Citizenship = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Father_Status = table.Column<int>(type: "int", nullable: false),
-                    Groom_Parents_Father_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Groom_Parents_Father_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Father_Residence_HouseNoOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Father_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Father_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Father_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Groom_Parents_Father_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Groom_Parents_Father_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Groom_Parents_Father_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Mother_Name_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Mother_Name_MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Groom_Parents_Mother_Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Mother_Citizenship = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Mother_Status = table.Column<int>(type: "int", nullable: false),
-                    Groom_Parents_Mother_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Groom_Parents_Mother_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Groom_Parents_Mother_Residence_HouseNoOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Mother_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Mother_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Groom_Parents_Mother_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Groom_Parents_Mother_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Groom_Parents_Mother_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Groom_Parents_Mother_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Name_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Name_MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bride_Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -93,21 +124,21 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                     Bride_Parents_Father_Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Father_Citizenship = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Father_Status = table.Column<int>(type: "int", nullable: false),
-                    Bride_Parents_Father_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bride_Parents_Father_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Father_Residence_HouseNoOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Father_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Father_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Father_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bride_Parents_Father_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bride_Parents_Father_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bride_Parents_Father_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Mother_Name_FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Mother_Name_MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bride_Parents_Mother_Name_LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Mother_Citizenship = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Mother_Status = table.Column<int>(type: "int", nullable: false),
-                    Bride_Parents_Mother_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bride_Parents_Mother_Residence_Barangay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bride_Parents_Mother_Residence_HouseNoOrStreet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Mother_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Mother_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bride_Parents_Mother_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bride_Parents_Mother_Residence_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bride_Parents_Mother_Residence_ProvinceOrState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bride_Parents_Mother_Residence_CityOrMunicipality = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -125,6 +156,11 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationForms_ApplicantId",
+                table: "ApplicationForms",
+                column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationForms_Type_Status",
@@ -147,6 +183,9 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "ApplicationForms");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

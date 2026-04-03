@@ -21,5 +21,4 @@ public class User : IAuditableEntity, IDeletableEntity
      public string? DeletedBy { get; set; }
      
      public IList<ApplicationForm> ApplicationForms { get; set; }
-     public IList<Token> Tokens { get; set; }
 }

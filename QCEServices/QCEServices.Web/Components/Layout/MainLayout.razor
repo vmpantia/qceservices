@@ -10,7 +10,7 @@
         <MudText Class="ml-2">Quezon City <b>E-Services</b></MudText>
     </MudAppBar>
     <MudMainContent>
-        <MudContainer Class="d-flex mt-10" MaxWidth="MaxWidth.ExtraLarge">
+        <MudContainer Class="d-flex ma-10" MaxWidth="MaxWidth.ExtraLarge">
             <NavMenu />
             <MudContainer>
                 @Body
@@ -18,3 +18,18 @@
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+@code {
+
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    
+    [CascadingParameter] private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationState;
+        var isAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
+        if (!isAuthenticated) NavigationManager.NavigateTo("/login");;
+    }
+
+}

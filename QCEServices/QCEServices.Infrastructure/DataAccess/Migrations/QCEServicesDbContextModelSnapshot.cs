@@ -108,48 +108,6 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                     b.ToTable("MarriageLicenses");
                 });
 
-            modelBuilder.Entity("QCEServices.Domain.Entities.Token", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("Value", "IsRevoked", "ExpiresAt")
-                        .IsUnique();
-
-                    b.ToTable("Tokens");
-                });
-
             modelBuilder.Entity("QCEServices.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -379,7 +337,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
@@ -460,7 +419,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.Navigation("Father")
@@ -680,7 +640,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.OwnsOne("QCEServices.Shared.Models.Parent", "Mother", b3 =>
@@ -761,7 +722,8 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                                             b3.Navigation("Name")
                                                 .IsRequired();
 
-                                            b3.Navigation("Residence");
+                                            b3.Navigation("Residence")
+                                                .IsRequired();
                                         });
 
                                     b2.Navigation("Father")
@@ -825,17 +787,6 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QCEServices.Domain.Entities.Token", b =>
-                {
-                    b.HasOne("QCEServices.Domain.Entities.User", "User")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("QCEServices.Domain.Entities.User", b =>
                 {
                     b.OwnsOne("QCEServices.Shared.Models.Person", "Name", b1 =>
@@ -875,8 +826,6 @@ namespace QCEServices.Infrastructure.DataAccess.Migrations
             modelBuilder.Entity("QCEServices.Domain.Entities.User", b =>
                 {
                     b.Navigation("ApplicationForms");
-
-                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,74 @@
+@page "/Login"
+@using QCEServices.Shared.Models.Dtos.Authentication
+@using QCEServices.Web.Components.Forms
+@using QCEServices.Web.Contracts.Services.Apis
+
+@layout EmptyLayout
+
+<MudThemeProvider />
+<MudSnackbarProvider />
+
+<MudContainer MaxWidth="MaxWidth.Small" Style="height: 100%;">
+    <MudPaper Class="px-10 py-20 mt-20">
+        <FormInput Data="_request"
+                   OnSubmitButtonClick="HandleLoginAsync"
+                   ErrorMessage="@_errorMessage">
+            <FieldContent>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h5" Style="font-weight: bold;">
+                        Quezon City <b>E-Services</b>Login to Quezon City <b>E-Services</b>
+                    </MudText>
+                </MudItem>
+                <MudItem xs="12">
+                    <FieldText Label="Username or Email"
+                               @bind-Value="_request.UsernameOrEmail"
+                               For="@(() => _request.UsernameOrEmail)"
+                               IsDisabled="_isLoading"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <FieldText Label="Password"
+                               @bind-Value="_request.Password"
+                               For="@(() => _request.Password)"
+                               IsDisabled="_isLoading"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <Button Type="ButtonType.Submit"
+                            IsDisabled="_isLoading"
+                            IsLoading="_isLoading"
+                            LoadingText="Processing...">
+                        Login
+                    </Button>
+                </MudItem>
+            </FieldContent>
+        </FormInput>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    
+    [Inject] public IAuthenticationApiService AuthenticationApiService { get; set; }
+    
+    private LoginDto _request = new();
+    private bool _isLoading = false;
+    private string _errorMessage = string.Empty;
+
+    private async Task HandleLoginAsync()
+    {
+        try
+        {
+            _errorMessage = string.Empty;
+            _isLoading = true;
+            
+            await AuthenticationApiService.LoginAsync(_request);
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+    
+}

@@ -1,0 +1,29 @@
+@using QCEServices.Web.Components.Validations
+
+@typeparam TData
+
+<EditForm FormName="@(typeof(TData).Name)" Model="Data" OnValidSubmit="OnSubmitButtonClick">
+    <FluentValidationValidator T="TData" />
+    <MudGrid Class="mb-5">
+        @if (HasError)
+        {
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Error">
+                    @((MarkupString)ErrorMessage)
+                </MudAlert>
+            </MudItem>
+        }
+        @FieldContent
+    </MudGrid>
+</EditForm>
+
+@code {
+    
+    [Parameter] public TData Data { get; set; }
+    [Parameter] public string ErrorMessage { get; set; }
+    [Parameter] public EventCallback<EditContext> OnSubmitButtonClick { get; set; }
+    [Parameter] public RenderFragment? FieldContent { get; set; }
+    
+    private bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+    
+}
