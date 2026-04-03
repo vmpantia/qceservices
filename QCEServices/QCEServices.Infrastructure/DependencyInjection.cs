@@ -40,7 +40,6 @@ public static class DependencyInjection
             services.AddScoped<IApplicationFormRepository, ApplicationFormRepository>();
             services.AddScoped<IMarriageLicenseRepository, MarriageLicenseRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITokenRepository, TokenRepository>();
         }
     }
 }

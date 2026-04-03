@@ -17,7 +17,7 @@ public static class DependencyInjection
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddSingleton<ITokenProvider, TokenProvider>();
-            services.AddSingleton<IStringHasher, StringHasher>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
         }
 
         private void AddMediatR()

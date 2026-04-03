@@ -4,6 +4,8 @@ namespace QCEServices.Application.Authentication;
 
 public sealed class JwtSetting
 {
+    public JwtSetting() { }
+
     private JwtSetting(string secret, string issuer, string audience, int expirationInMinutes)
     {
         Secret = secret;
@@ -12,12 +14,12 @@ public sealed class JwtSetting
         ExpirationInMinutes = expirationInMinutes;
     }
     
-    public string Secret { get; init; }
-    public string Issuer { get; init; }
-    public string Audience { get; init; }
-    public int ExpirationInMinutes { get; init; }
+    public string Secret { get; set; }
+    public string Issuer { get; set; }
+    public string Audience { get; set; }
+    public int ExpirationInMinutes { get; set; }
 
-    public static JwtSetting FromConfiguration(IConfigurationSection section)
+    public static JwtSetting FromConfiguration(IConfiguration section)
     {
         var secret = section[$"{nameof(JwtSetting)}:{nameof(Secret)}"]!;
         var issuer = section[$"{nameof(JwtSetting)}:{nameof(Issuer)}"]!;

@@ -1,36 +1,17 @@
 using System.Security.Cryptography;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using QCEServices.Domain.Interfaces.Authentication;
 
 namespace QCEServices.Application.Authentication;
 
-public sealed class StringHasher(ILogger<StringHasher> logger) : IStringHasher
+public sealed class PasswordHasher(ILogger<PasswordHasher> logger) : IPasswordHasher
 {
     private const int SaltSize = 16;
     private const int HashSize = 32;
     private const int Iterations = 100000;
     private readonly HashAlgorithmName Alogrithm = HashAlgorithmName.SHA512;
 
-    public string HashValue(string value, string secretKey)
-    {
-        try
-        {
-            ArgumentNullException.ThrowIfNull(value);
-            ArgumentNullException.ThrowIfNull(secretKey);
-
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secretKey));
-            var bytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(value));
-            return Convert.ToHexString(bytes);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError($"Error occurred while hashing provided value. {ex.Message}");
-            throw;
-        }
-    }
-
-    public string HashPassword(string password)
+    public string Hash(string password)
     {
         try
         {
@@ -49,7 +30,7 @@ public sealed class StringHasher(ILogger<StringHasher> logger) : IStringHasher
         }
     }
     
-    public bool VerifyPassword(string password, string hashedPassword)
+    public bool Verify(string password, string hashedPassword)
     {
         try
         {
